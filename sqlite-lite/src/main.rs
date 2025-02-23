@@ -1,7 +1,11 @@
+mod compiler;
 mod types;
+mod vm;
 
+use compiler::prepare_statement;
 use std::io::{self, Write};
 use types::{InputBuffer, MetaCommandResult, PrepareResult, Statement, StatementType};
+use vm::execute_statement;
 
 fn print_prompt() {
     print!("sqlite-lite> ");
@@ -13,32 +17,6 @@ fn do_meta_command(input_buffer: &InputBuffer) -> MetaCommandResult {
         std::process::exit(0);
     } else {
         return MetaCommandResult::UnrecognizedCommand;
-    }
-}
-
-fn prepare_statement(input_buffer: &InputBuffer, statement: &mut Statement) -> PrepareResult {
-    if input_buffer.buffer.starts_with("insert") {
-        statement.type_ = StatementType::Insert;
-        return PrepareResult::Success;
-    }
-
-    if input_buffer.buffer.starts_with("select") {
-        statement.type_ = StatementType::Select;
-        return PrepareResult::Success;
-    }
-
-    PrepareResult::UnrecognizedStatement
-}
-
-fn execute_statement(statement: Statement) -> () {
-    match statement.type_ {
-        StatementType::Insert => {
-            println!("This is where we would do an insert...");
-        }
-        StatementType::Select => {
-            println!("This is where we would do a select...");
-        }
-        _ => {}
     }
 }
 

@@ -55,6 +55,8 @@ fn main() {
         }
 
         execute_statement(statement);
+
         println!("Executed.");
+        io::stdout().flush().unwrap();
     }
 }
